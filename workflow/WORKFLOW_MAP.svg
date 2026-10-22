@@ -1,153 +1,92 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1200" viewBox="0 0 1800 1200" style="width:100%;height:auto;display:block;margin:0 auto" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1180" viewBox="0 0 1920 1180" style="width:100%;height:auto;display:block;margin:0 auto" role="img" aria-labelledby="title desc">
   <title id="title">Human-gated research agent workflow</title>
-  <desc id="desc">A three-lane workflow showing human decisions, agent execution, and durable project records from project definition through review and the next-task decision.</desc>
+  <desc id="desc">Three aligned lanes show human decisions, agent execution, and durable records. Solid arrows show the normal route. Dashed arrows show repair, backlog, and return routes.</desc>
   <defs>
-    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
-      <path d="M 0 0 L 10 5 L 0 10 z" fill="#5f7182"/>
-    </marker>
-    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
-      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#1f3344" flood-opacity="0.14"/>
-    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 Z" fill="#5f7182"/></marker>
+    <filter id="shadow" x="-12%" y="-12%" width="124%" height="132%"><feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#1f3344" flood-opacity="0.13"/></filter>
     <style>
       .title { font: 500 38px Arial, sans-serif; fill: #183247; }
       .subtitle { font: 400 20px Arial, sans-serif; fill: #536777; }
       .lane-title { font: 500 22px Arial, sans-serif; fill: #183247; letter-spacing: .4px; }
-      .node-title { font: 500 22px Arial, sans-serif; fill: #183247; text-anchor: middle; }
-      .node-copy { font: 400 18px Arial, sans-serif; fill: #334b5d; text-anchor: middle; }
-      .edge-label { font: 500 17px Arial, sans-serif; fill: #40576a; text-anchor: middle; paint-order: stroke; stroke: #ffffff; stroke-width: 8px; stroke-linejoin: round; }
-      .small { font: 400 16px Arial, sans-serif; fill: #536777; }
-      .flow { fill: none; stroke: #5f7182; stroke-width: 3; marker-end: url(#arrow); }
-      .return { fill: none; stroke: #6f8191; stroke-width: 3; stroke-dasharray: 10 8; marker-end: url(#arrow); }
+      .node-title { font: 500 21px Arial, sans-serif; fill: #183247; text-anchor: middle; }
+      .node-copy { font: 400 17px Arial, sans-serif; fill: #334b5d; text-anchor: middle; }
+      .edge-label { font: 500 16px Arial, sans-serif; fill: #40576a; text-anchor: middle; paint-order: stroke; stroke: #fff; stroke-width: 9px; stroke-linejoin: round; }
+      .legend { font: 400 15px Arial, sans-serif; fill: #536777; }
+      .flow { fill: none; stroke: #5f7182; stroke-width: 3; stroke-linejoin: round; marker-end: url(#arrow); }
+      .return { fill: none; stroke: #718392; stroke-width: 3; stroke-linejoin: round; stroke-dasharray: 10 8; marker-end: url(#arrow); }
       .human { fill: #eaf1f8; stroke: #355c7d; stroke-width: 3; }
       .agent { fill: #f4f7fa; stroke: #6b7f91; stroke-width: 3; }
-      .record { fill: #ffffff; stroke: #8a98a5; stroke-width: 3; }
-      .decision { fill: #ffffff; stroke: #647789; stroke-width: 3; }
+      .record { fill: #fff; stroke: #8a98a5; stroke-width: 3; }
+      .decision { fill: #fff; stroke: #647789; stroke-width: 3; }
     </style>
   </defs>
 
-  <rect width="1800" height="1200" fill="#ffffff"/>
-  <text class="title" x="70" y="62">Human-gated research workflow</text>
-  <text class="subtitle" x="70" y="96">One active task, bounded agent loops, explicit human gates, and durable state</text>
+  <rect width="1920" height="1180" fill="#fff"/>
+  <text class="title" x="65" y="58">Human-gated research workflow</text>
+  <text class="subtitle" x="65" y="91">One active task, bounded agent loops, explicit human gates, and durable state</text>
+  <rect x="35" y="120" width="1850" height="255" rx="18" fill="#f5f8fb"/>
+  <rect x="35" y="395" width="1850" height="305" rx="18" fill="#fafbfd"/>
+  <rect x="35" y="720" width="1850" height="385" rx="18" fill="#fff" stroke="#d8e0e7" stroke-width="2"/>
+  <text class="lane-title" x="65" y="158">HUMAN DECISIONS</text>
+  <text class="lane-title" x="65" y="433">AGENT EXECUTION</text>
+  <text class="lane-title" x="65" y="758">DURABLE RECORDS</text>
 
-  <rect x="40" y="130" width="1720" height="265" rx="18" fill="#f5f8fb"/>
-  <rect x="40" y="415" width="1720" height="300" rx="18" fill="#fafbfd"/>
-  <rect x="40" y="735" width="1720" height="405" rx="18" fill="#ffffff" stroke="#d8e0e7" stroke-width="2"/>
-  <text class="lane-title" x="72" y="170">HUMAN DECISIONS</text>
-  <text class="lane-title" x="72" y="455">AGENT EXECUTION</text>
-  <text class="lane-title" x="72" y="775">DURABLE RECORDS</text>
+  <g filter="url(#shadow)"><rect class="human" x="70" y="205" width="250" height="100" rx="50"/><text class="node-title" x="195" y="244"><tspan x="195">Human defines the</tspan><tspan x="195" dy="28">research question</tspan></text></g>
+  <g filter="url(#shadow)"><polygon class="human" points="500,185 610,250 500,315 390,250"/><text class="node-title" x="500" y="232"><tspan x="500">Gate 1</tspan><tspan class="node-copy" x="500" dy="26">authorize one</tspan><tspan class="node-copy" x="500" dy="22">bounded task</tspan></text></g>
+  <g filter="url(#shadow)"><polygon class="human" points="1100,185 1220,250 1100,315 980,250"/><text class="node-title" x="1100" y="226"><tspan x="1100">Gate 2</tspan><tspan class="node-copy" x="1100" dy="26">resolve blocker</tspan><tspan class="node-copy" x="1100" dy="22">or scope change</tspan></text></g>
+  <g filter="url(#shadow)"><polygon class="human" points="1590,185 1710,250 1590,315 1470,250"/><text class="node-title" x="1590" y="226"><tspan x="1590">Gate 3</tspan><tspan class="node-copy" x="1590" dy="26">choose scientific</tspan><tspan class="node-copy" x="1590" dy="22">disposition</tspan></text></g>
 
-  <!-- Human lane -->
-  <g filter="url(#shadow)">
-    <rect class="human" x="120" y="220" width="250" height="105" rx="52"/>
-    <text class="node-title" x="245" y="260"><tspan x="245">Human defines the</tspan><tspan x="245" dy="29">research question</tspan></text>
-  </g>
+  <g filter="url(#shadow)"><rect class="agent" x="570" y="485" width="270" height="110" rx="16"/><text class="node-title" x="705" y="522"><tspan x="705">Agent loop</tspan><tspan class="node-copy" x="705" dy="29">implement → check → repair</tspan><tspan class="node-copy" x="705" dy="23">inside the approved task</tspan></text></g>
+  <g filter="url(#shadow)"><polygon class="decision" points="1050,465 1170,540 1050,615 930,540"/><text class="node-title" x="1050" y="526"><tspan x="1050">Unexpected</tspan><tspan x="1050" dy="28">finding?</tspan></text></g>
+  <g filter="url(#shadow)"><rect class="agent" x="1320" y="485" width="270" height="110" rx="16"/><text class="node-title" x="1455" y="522"><tspan x="1455">Save evidence</tspan><tspan class="node-copy" x="1455" dy="29">facts · checks · limitations</tspan><tspan class="node-copy" x="1455" dy="23">prepare review packet</tspan></text></g>
 
-  <g filter="url(#shadow)">
-    <polygon class="human" points="570,205 690,272 570,339 450,272"/>
-    <text class="node-title" x="570" y="254"><tspan x="570">Gate 1</tspan><tspan class="node-copy" x="570" dy="27">authorize one</tspan><tspan class="node-copy" x="570" dy="24">bounded task</tspan></text>
-  </g>
+  <g filter="url(#shadow)"><rect class="record" x="70" y="815" width="280" height="110" rx="14"/><text class="node-title" x="210" y="852"><tspan x="210">PROJECT.md + PLAN.md</tspan><tspan class="node-copy" x="210" dy="29">purpose · boundaries</tspan><tspan class="node-copy" x="210" dy="23">approved sequence</tspan></text></g>
+  <g filter="url(#shadow)"><rect class="record" x="550" y="815" width="270" height="110" rx="14"/><text class="node-title" x="685" y="852"><tspan x="685">ACTIVE_TASK.md</tspan><tspan class="node-copy" x="685" dy="29">the only active</tspan><tspan class="node-copy" x="685" dy="23">execution scope</tspan></text></g>
+  <g filter="url(#shadow)"><rect class="record" x="930" y="815" width="250" height="110" rx="14"/><text class="node-title" x="1055" y="852"><tspan x="1055">BACKLOG.md</tspan><tspan class="node-copy" x="1055" dy="29">record useful idea</tspan><tspan class="node-copy" x="1055" dy="23">do not change task</tspan></text></g>
+  <g filter="url(#shadow)"><rect class="record" x="1320" y="815" width="270" height="110" rx="14"/><text class="node-title" x="1455" y="852"><tspan x="1455">DECISIONS + CURRENT</tspan><tspan class="node-copy" x="1455" dy="29">record disposition</tspan><tspan class="node-copy" x="1455" dy="23">and next state</tspan></text></g>
+  <g filter="url(#shadow)"><polygon class="decision" points="1740,795 1850,870 1740,945 1630,870"/><text class="node-title" x="1740" y="856"><tspan x="1740">Another</tspan><tspan x="1740" dy="28">approved task?</tspan></text></g>
+  <g filter="url(#shadow)"><rect class="record" x="1615" y="1010" width="250" height="72" rx="36"/><text class="node-title" x="1740" y="1054">Wait with state preserved</text></g>
 
-  <g filter="url(#shadow)">
-    <polygon class="human" points="1050,205 1175,272 1050,339 925,272"/>
-    <text class="node-title" x="1050" y="247"><tspan x="1050">Gate 2</tspan><tspan class="node-copy" x="1050" dy="27">resolve blocker</tspan><tspan class="node-copy" x="1050" dy="24">or scope change</tspan></text>
-  </g>
+  <!-- Normal route -->
+  <path class="flow" d="M195 305 V815"/>
+  <path class="flow" d="M350 870 H360 V250 H390"/>
+  <path class="flow" d="M500 315 V740 H560 V815"/>
+  <path class="flow" d="M685 815 V595"/>
+  <path class="flow" d="M840 540 H930"/>
+  <path class="flow" d="M1170 540 H1320"/>
+  <path class="flow" d="M1455 485 V360 H1590 V315"/>
+  <path class="flow" d="M1710 250 H1815 V690 H1455 V815"/>
+  <path class="flow" d="M1590 870 H1630"/>
+  <path class="flow" d="M1740 945 V1010"/>
 
-  <g filter="url(#shadow)">
-    <polygon class="human" points="1450,205 1575,272 1450,339 1325,272"/>
-    <text class="node-title" x="1450" y="247"><tspan x="1450">Gate 3</tspan><tspan class="node-copy" x="1450" dy="27">choose scientific</tspan><tspan class="node-copy" x="1450" dy="24">disposition</tspan></text>
-  </g>
+  <!-- Repair and detour routes -->
+  <path class="return" d="M980 485 C920 410 800 410 775 485"/>
+  <text class="edge-label" x="875" y="407">bounded mechanical fix</text>
+  <path class="flow" d="M1050 615 V815"/>
+  <text class="edge-label" x="1113" y="716">useful later</text>
+  <path class="return" d="M930 870 H875 V665 H735 V595"/>
+  <text class="edge-label" x="820" y="654">return to original task</text>
 
-  <!-- Agent lane -->
-  <g filter="url(#shadow)">
-    <rect class="agent" x="515" y="510" width="270" height="115" rx="16"/>
-    <text class="node-title" x="650" y="550"><tspan x="650">Agent loop</tspan><tspan class="node-copy" x="650" dy="30">implement → check → repair</tspan><tspan class="node-copy" x="650" dy="25">inside the approved task</tspan></text>
-  </g>
+  <!-- Gate 2 routes -->
+  <path class="flow" d="M1050 465 V365 H1100 V315"/>
+  <text class="edge-label" x="1210" y="365">blocking or out of scope</text>
+  <path class="return" d="M980 250 H895 V420 H775 V485"/>
+  <text class="edge-label" x="884" y="278">continue</text>
+  <path class="return" d="M1100 185 V145 H500 V185"/>
+  <text class="edge-label" x="800" y="137">amend task</text>
+  <path class="return" d="M1220 250 H1270 V435 H1455 V485"/>
+  <text class="edge-label" x="1370" y="425">stop or invalidate</text>
 
-  <g filter="url(#shadow)">
-    <polygon class="decision" points="980,485 1100,567 980,649 860,567"/>
-    <text class="node-title" x="980" y="550"><tspan x="980">Unexpected</tspan><tspan x="980" dy="29">finding?</tspan></text>
-  </g>
+  <!-- Repeat or stop -->
+  <path class="return" d="M1740 795 V735 H1870 V112 H500 V185"/>
+  <text class="edge-label" x="1495" y="104">yes · authorize next task</text>
+  <text class="edge-label" x="1245" y="526">no</text>
+  <text class="edge-label" x="1790" y="985">no</text>
 
-  <g filter="url(#shadow)">
-    <rect class="agent" x="1320" y="510" width="260" height="115" rx="16"/>
-    <text class="node-title" x="1450" y="550"><tspan x="1450">Save evidence</tspan><tspan class="node-copy" x="1450" dy="30">facts · checks · limits</tspan><tspan class="node-copy" x="1450" dy="25">prepare review packet</tspan></text>
-  </g>
-
-  <!-- Records lane -->
-  <g filter="url(#shadow)">
-    <rect class="record" x="150" y="830" width="260" height="115" rx="14"/>
-    <text class="node-title" x="280" y="868"><tspan x="280">PROJECT.md + PLAN.md</tspan><tspan class="node-copy" x="280" dy="30">purpose · boundaries</tspan><tspan class="node-copy" x="280" dy="25">approved sequence</tspan></text>
-  </g>
-
-  <g filter="url(#shadow)">
-    <rect class="record" x="515" y="830" width="270" height="115" rx="14"/>
-    <text class="node-title" x="650" y="868"><tspan x="650">ACTIVE_TASK.md</tspan><tspan class="node-copy" x="650" dy="30">the only active</tspan><tspan class="node-copy" x="650" dy="25">execution scope</tspan></text>
-  </g>
-
-  <g filter="url(#shadow)">
-    <rect class="record" x="865" y="830" width="240" height="115" rx="14"/>
-    <text class="node-title" x="985" y="868"><tspan x="985">BACKLOG.md</tspan><tspan class="node-copy" x="985" dy="30">record useful idea</tspan><tspan class="node-copy" x="985" dy="25">do not change task</tspan></text>
-  </g>
-
-  <g filter="url(#shadow)">
-    <rect class="record" x="1215" y="830" width="275" height="115" rx="14"/>
-    <text class="node-title" x="1352" y="868"><tspan x="1352">DECISIONS + CURRENT</tspan><tspan class="node-copy" x="1352" dy="30">record disposition</tspan><tspan class="node-copy" x="1352" dy="25">and next state</tspan></text>
-  </g>
-
-  <g filter="url(#shadow)">
-    <polygon class="decision" points="1600,805 1715,887 1600,969 1485,887"/>
-    <text class="node-title" x="1600" y="870"><tspan x="1600">Another</tspan><tspan x="1600" dy="29">approved task?</tspan></text>
-  </g>
-
-  <g filter="url(#shadow)">
-    <rect class="record" x="1480" y="1030" width="240" height="78" rx="39"/>
-    <text class="node-title" x="1600" y="1077">Wait with state preserved</text>
-  </g>
-
-  <!-- Primary path -->
-  <path class="flow" d="M245 325 V760 H280 V830"/>
-  <path class="flow" d="M410 887 H445 V272 H450"/>
-  <path class="flow" d="M570 339 V790 H650 V830"/>
-  <path class="flow" d="M650 830 V625"/>
-  <path class="flow" d="M785 567 H860"/>
-  <path class="flow" d="M1100 567 H1320"/>
-  <path class="flow" d="M1450 510 V339"/>
-  <path class="flow" d="M1575 272 H1645 V755 H1352 V830"/>
-  <path class="flow" d="M1490 887 H1485"/>
-  <path class="flow" d="M1600 969 V1030"/>
-
-  <!-- Exception paths -->
-  <path class="return" d="M930 515 C850 430 760 430 700 510"/>
-  <text class="edge-label" x="810" y="446">bounded mechanical fix</text>
-
-  <path class="flow" d="M980 649 V830"/>
-  <text class="edge-label" x="1060" y="742">useful later</text>
-  <path class="return" d="M865 888 H820 V680 H700 V625"/>
-  <text class="edge-label" x="790" y="707">return to original task</text>
-
-  <path class="flow" d="M1015 492 V390 H1050 V339"/>
-  <text class="edge-label" x="1140" y="412">blocking or out of scope</text>
-  <path class="return" d="M925 272 H820 V470 H700 V510"/>
-  <text class="edge-label" x="820" y="300">continue</text>
-  <path class="return" d="M1050 205 V160 H570 V205"/>
-  <text class="edge-label" x="810" y="151">amend task</text>
-  <path class="return" d="M1175 272 H1640 V470 H1510 V510"/>
-  <text class="edge-label" x="1615" y="445">stop or invalidate</text>
-
-  <path class="return" d="M1600 805 V740 H1750 V150 H570 V205"/>
-  <text class="edge-label" x="1665" y="725">yes · authorize next task</text>
-
-  <!-- Edge labels and legend -->
-  <text class="edge-label" x="1190" y="548">no</text>
-  <text class="edge-label" x="1660" y="1005">no</text>
-  <g transform="translate(70 1165)">
-    <rect x="0" y="-19" width="26" height="18" rx="4" class="human"/>
-    <text class="small" x="38" y="-4">human-controlled gate</text>
-    <rect x="265" y="-19" width="26" height="18" rx="4" class="agent"/>
-    <text class="small" x="303" y="-4">agent or review work</text>
-    <rect x="545" y="-19" width="26" height="18" rx="4" class="record"/>
-    <text class="small" x="583" y="-4">authoritative project record</text>
-    <line x1="900" y1="-10" x2="955" y2="-10" class="return"/>
-    <text class="small" x="970" y="-4">return or exception route</text>
+  <g transform="translate(65 1150)">
+    <rect x="0" y="-18" width="25" height="17" rx="4" class="human"/><text class="legend" x="37" y="-4">human-controlled gate</text>
+    <rect x="255" y="-18" width="25" height="17" rx="4" class="agent"/><text class="legend" x="292" y="-4">agent or review work</text>
+    <rect x="525" y="-18" width="25" height="17" rx="4" class="record"/><text class="legend" x="562" y="-4">authoritative project record</text>
+    <line x1="860" y1="-10" x2="915" y2="-10" class="return"/><text class="legend" x="935" y="-4">return or exception route</text>
   </g>
 </svg>
