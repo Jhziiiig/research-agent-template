@@ -50,7 +50,7 @@
   <!-- Normal route -->
   <path class="flow" d="M195 305 V815"/>
   <path class="flow" d="M350 870 H360 V250 H390"/>
-  <path class="flow" d="M500 315 V740 H560 V815"/>
+  <path class="flow" d="M500 315 V760 H465 V870 H550"/>
   <path class="flow" d="M685 815 V595"/>
   <path class="flow" d="M840 540 H930"/>
   <path class="flow" d="M1170 540 H1320"/>
