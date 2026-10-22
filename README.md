@@ -62,7 +62,7 @@ This template addresses those failures with:
 
 The overview is kept as a separate scalable file so the full lifecycle and every return path remain readable.
 
-**[Open the full-screen workflow map](workflow/WORKFLOW_MAP.svg?raw=1)**
+**[Open the full-screen workflow map](https://raw.githubusercontent.com/Jhziiiig/research-agent-template/refs/heads/main/workflow/WORKFLOW_MAP.svg)**
 
 The map shows the normal route, mechanical repair loop, backlog detour, blocker/scope gate, review decision, and return to the next authorized task. See the [detailed process map](workflow/PROCESS_MAP.md) for the rule behind each branch and information destination; see [the operating model](workflow/OPERATING_MODEL.md) for the corresponding procedures.
 
