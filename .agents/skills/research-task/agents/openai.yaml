@@ -1,0 +1,4 @@
+interface:
+  display_name: "Run Research Task"
+  short_description: "Execute one bounded research task with evidence"
+  default_prompt: "Use $research-task to execute the single active research task and stop at its decision gate."

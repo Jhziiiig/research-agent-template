@@ -1,0 +1,32 @@
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials*.json
+secrets*.json
+
+# Python and editor state
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+.DS_Store
+.idea/
+.vscode/
+
+# Data and large generated artifacts: adapt deliberately for each project
+data/
+datasets/
+checkpoints/
+weights/
+*.ckpt
+*.pt
+*.pth
+*.onnx
+
+# Private machine-specific material
+.private/

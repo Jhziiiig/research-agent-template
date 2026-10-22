@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review Research Work"
+  short_description: "Review research code, evidence, and explanations"
+  default_prompt: "Use $research-review to review the current task evidence without changing its scientific direction."
