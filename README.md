@@ -60,23 +60,11 @@ This template addresses those failures with:
 
 ## Workflow map
 
-This overview is intentionally compact: it shows the complete lifecycle first, while the detailed map enlarges one phase at a time.
+The overview is kept as a separate scalable file so the full lifecycle and every return path remain readable.
 
-```mermaid
-%%{init: {"theme":"base","themeVariables":{"fontFamily":"Arial, sans-serif","fontSize":"16px","lineColor":"#64748B"},"flowchart":{"curve":"linear","nodeSpacing":24,"rankSpacing":38,"htmlLabels":true}}}%%
-flowchart LR
-    P[1 · Define project + plan]:::human
-    T[2 · Authorize one task]:::human
-    X[3 · Execute · check · review]:::agent
-    D[4 · Choose + record decision]:::human
+**[Open the full-screen workflow map](workflow/WORKFLOW_MAP.svg)**
 
-    P -->|Gate 0| T -->|Gate 1| X -->|Gate 3| D
-
-    classDef human fill:#EAF1F8,stroke:#355C7D,color:#183247,stroke-width:2px;
-    classDef agent fill:#F4F7FA,stroke:#6B7F91,color:#243746,stroke-width:2px;
-```
-
-Human-controlled steps use blue fill; agent/review work uses light gray. The agent may loop through implementation, checking, and repair without asking about every mechanical detail. **Gate 2** interrupts stage 3 only for a blocker or scope change. **Gate 4** applies only before an external release. After stage 4, the project either waits or returns to stage 2 with another approved task. See the [detailed process map](workflow/PROCESS_MAP.md) for each branch and information destination; see [the operating model](workflow/OPERATING_MODEL.md) for the corresponding rules.
+The map shows the normal route, mechanical repair loop, backlog detour, blocker/scope gate, review decision, and return to the next authorized task. See the [detailed process map](workflow/PROCESS_MAP.md) for the rule behind each branch and information destination; see [the operating model](workflow/OPERATING_MODEL.md) for the corresponding procedures.
 
 ## Quick start
 

@@ -8,6 +8,8 @@ This document separates the workflow into three views so each part can be review
 
 The diagrams describe control and information flow. They do not grant tool permissions or external authorization.
 
+For a single zoomable view of the complete lifecycle, open the **[full-screen workflow map](WORKFLOW_MAP.svg)**.
+
 ## Roles
 
 | Role | May do without a new scientific decision | Must not do without human approval |
