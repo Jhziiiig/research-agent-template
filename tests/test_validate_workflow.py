@@ -21,6 +21,15 @@ validator = load_module("validate_workflow", ROOT / "scripts/validate_workflow.p
 
 
 class ValidateWorkflowTests(unittest.TestCase):
+    def test_local_link_query_is_not_part_of_file_path(self):
+        with tempfile.TemporaryDirectory() as directory:
+            page = Path(directory) / "README.md"
+            page.write_text("[Open map](workflow/map.svg?raw=1)\n", encoding="utf-8")
+            self.assertEqual(
+                list(validator.local_markdown_links(page)),
+                ["workflow/map.svg"],
+            )
+
     def test_template_repository_is_structurally_valid(self):
         self.assertEqual(validator.validate(ROOT, template_mode=True), [])
 

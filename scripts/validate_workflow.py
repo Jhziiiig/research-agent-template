@@ -66,7 +66,7 @@ def local_markdown_links(path: Path):
         target = match.group(1).strip()
         if not target or target.startswith(("#", "http://", "https://", "mailto:")):
             continue
-        target = target.split("#", 1)[0]
+        target = target.split("#", 1)[0].split("?", 1)[0]
         if target:
             yield target
 
