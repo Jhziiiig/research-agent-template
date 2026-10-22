@@ -60,47 +60,28 @@ This template addresses those failures with:
 
 ## Workflow map
 
-The lanes below show who acts, when a human must intervene, and where each kind of information is stored.
+This overview is intentionally compact: it shows the complete lifecycle first, while the detailed map enlarges one phase at a time.
 
 ```mermaid
-%%{init: {"theme":"base","themeVariables":{"fontFamily":"Arial, sans-serif","fontSize":"18px","lineColor":"#64748B"},"flowchart":{"curve":"basis","nodeSpacing":44,"rankSpacing":58,"htmlLabels":true}}}%%
-flowchart TB
-    H0([Human defines the research question]):::human
-    C0[PROJECT.md + PLAN.md<br/>purpose, boundaries, approved sequence]:::file
-    G1{Gate 1<br/>Human authorizes one bounded task}:::gate
-    T1[work/ACTIVE_TASK.md<br/>the only active execution scope]:::file
-    A1[Agent loop<br/>implement → check → repair]:::agent
-    Q1{Unexpected finding?}:::decision
-    B1[Record in BACKLOG.md<br/>continue the original task]:::file
-    G2{Gate 2<br/>Human resolves blocker or scope change}:::gate
-    E1[Save evidence + prepare review packet]:::evidence
-    G3{Gate 3<br/>Human chooses the scientific disposition}:::gate
-    M1[Update DECISIONS.md + CURRENT.md]:::file
-    N1{Another approved task?}:::decision
-    Z1([Wait with state preserved]):::stop
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"Arial, sans-serif","fontSize":"16px","lineColor":"#64748B"},"flowchart":{"curve":"linear","nodeSpacing":24,"rankSpacing":38,"htmlLabels":true}}}%%
+flowchart LR
+    P[Define project<br/><small>PROJECT + PLAN</small>]:::human
+    T[Authorize one task<br/><small>ACTIVE_TASK</small>]:::human
+    X[Execute · check · repair]:::agent
+    R[Review evidence]:::agent
+    D[Choose + record decision<br/><small>DECISIONS + CURRENT</small>]:::human
+    W([Wait or select next task]):::state
 
-    H0 --> C0 --> G1 --> T1 --> A1 --> Q1
-    Q1 -- No --> E1
-    Q1 -- Bounded mechanical fix --> A1
-    Q1 -- Useful later --> B1 --> A1
-    Q1 -- Blocking or out of scope --> G2
-    G2 -- Continue --> A1
-    G2 -- Amend task --> G1
-    G2 -- Stop or invalidate --> E1
-    E1 --> G3 --> M1 --> N1
-    N1 -- Yes --> G1
-    N1 -- No --> Z1
+    P -->|Gate 0| T -->|Gate 1| X --> R -->|Gate 3| D --> W
+    X -. blocker / scope change<br/>Gate 2 .-> T
+    D -. next approved task .-> T
 
-    classDef human fill:#E8F1FF,stroke:#2563EB,color:#0F2B5B,stroke-width:2px;
-    classDef gate fill:#FFF3CD,stroke:#B7791F,color:#4A3300,stroke-width:3px;
-    classDef agent fill:#EAF7F0,stroke:#16825D,color:#123C2E,stroke-width:2px;
-    classDef evidence fill:#E7F7EF,stroke:#15803D,color:#123A24,stroke-width:2px;
-    classDef file fill:#F2ECFF,stroke:#7C3AED,color:#2E1065,stroke-width:2px;
-    classDef decision fill:#FFFFFF,stroke:#64748B,color:#1F2937,stroke-width:2px;
-    classDef stop fill:#F1F5F9,stroke:#64748B,color:#334155,stroke-width:2px;
+    classDef human fill:#EAF1F8,stroke:#355C7D,color:#183247,stroke-width:2px;
+    classDef agent fill:#F4F7FA,stroke:#6B7F91,color:#243746,stroke-width:2px;
+    classDef state fill:#FFFFFF,stroke:#8A98A5,color:#334155,stroke-width:2px;
 ```
 
-The agent may loop through implementation, checking, and repair without asking about every mechanical detail. The human re-enters when evidence is blocked, a scientific interpretation or scope decision is required, or the next task must be authorized. See the [detailed process map](workflow/PROCESS_MAP.md) to review each gate, exception path, information destination, and task state; see [the operating model](workflow/OPERATING_MODEL.md) for the corresponding rules.
+Human-controlled steps use blue fill; agent/review work uses light gray; the unfilled node is a preserved resting state. The agent may loop through implementation, checking, and repair without asking about every mechanical detail. The human re-enters at the labeled gates. See the [detailed process map](workflow/PROCESS_MAP.md) to review each exception path, information destination, and task state; see [the operating model](workflow/OPERATING_MODEL.md) for the corresponding rules.
 
 ## Quick start
 

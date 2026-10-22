@@ -19,10 +19,10 @@ The diagrams describe control and information flow. They do not grant tool permi
 
 ## 1. Stage and approval map
 
-The first diagram is the whole lifecycle at a glance. The smaller diagrams underneath enlarge each phase. A **gate** is a point where work waits for an explicit human decision.
+The first diagram is the whole lifecycle at a glance. The smaller diagrams underneath show one phase at a time. A **gate** is a point where work waits for an explicit human decision. Across every diagram, blue marks human-controlled work, light gray marks agent or review work, and red is reserved for a problem that interrupts the normal route.
 
 ```mermaid
-%%{init: {"theme":"base","themeVariables":{"fontFamily":"Arial, sans-serif","fontSize":"19px","lineColor":"#64748B"},"flowchart":{"curve":"basis","nodeSpacing":50,"rankSpacing":62,"htmlLabels":true}}}%%
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"Arial, sans-serif","fontSize":"16px","lineColor":"#64748B"},"flowchart":{"curve":"linear","nodeSpacing":24,"rankSpacing":36,"htmlLabels":true}}}%%
 flowchart LR
     P0([1 · Define project]):::human --> P1{Gate 0}:::gate
     P1 --> P2([2 · Authorize task]):::human --> P3{Gate 1}:::gate
@@ -32,17 +32,17 @@ flowchart LR
     P6 --> P7([5 · Record decision]):::file
     P7 -. optional .-> P8{Gate 4<br/>external release}:::gate
 
-    classDef human fill:#E8F1FF,stroke:#2563EB,color:#0F2B5B,stroke-width:2px;
-    classDef gate fill:#FFF3CD,stroke:#B7791F,color:#4A3300,stroke-width:3px;
-    classDef agent fill:#EAF7F0,stroke:#16825D,color:#123C2E,stroke-width:2px;
-    classDef evidence fill:#E7F7EF,stroke:#15803D,color:#123A24,stroke-width:2px;
-    classDef file fill:#F2ECFF,stroke:#7C3AED,color:#2E1065,stroke-width:2px;
+    classDef human fill:#EAF1F8,stroke:#355C7D,color:#183247,stroke-width:2px;
+    classDef gate fill:#EAF1F8,stroke:#355C7D,color:#183247,stroke-width:2px;
+    classDef agent fill:#F4F7FA,stroke:#6B7F91,color:#243746,stroke-width:2px;
+    classDef evidence fill:#F4F7FA,stroke:#6B7F91,color:#243746,stroke-width:2px;
+    classDef file fill:#FFFFFF,stroke:#8A98A5,color:#334155,stroke-width:2px;
 ```
 
 ### Phase A — define the project and authorize one task
 
 ```mermaid
-%%{init: {"theme":"base","themeVariables":{"fontFamily":"Arial, sans-serif","fontSize":"18px","lineColor":"#64748B"},"flowchart":{"curve":"basis","nodeSpacing":44,"rankSpacing":58,"htmlLabels":true}}}%%
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"Arial, sans-serif","fontSize":"16px","lineColor":"#64748B"},"flowchart":{"curve":"linear","nodeSpacing":28,"rankSpacing":40,"htmlLabels":true}}}%%
 flowchart TB
     Start([Project idea]):::human --> Charter[Write PROJECT.md<br/>question · boundaries · data classes · authority]:::file
     Charter --> G0{Gate 0<br/>Approve the project definition?}:::gate
@@ -53,16 +53,16 @@ flowchart TB
     G1 -- Revise or reject --> Draft
     G1 -- Approve --> Run([Start agent execution]):::agent
 
-    classDef human fill:#E8F1FF,stroke:#2563EB,color:#0F2B5B,stroke-width:2px;
-    classDef gate fill:#FFF3CD,stroke:#B7791F,color:#4A3300,stroke-width:3px;
-    classDef agent fill:#EAF7F0,stroke:#16825D,color:#123C2E,stroke-width:2px;
-    classDef file fill:#F2ECFF,stroke:#7C3AED,color:#2E1065,stroke-width:2px;
+    classDef human fill:#EAF1F8,stroke:#355C7D,color:#183247,stroke-width:2px;
+    classDef gate fill:#EAF1F8,stroke:#355C7D,color:#183247,stroke-width:2px;
+    classDef agent fill:#F4F7FA,stroke:#6B7F91,color:#243746,stroke-width:2px;
+    classDef file fill:#FFFFFF,stroke:#8A98A5,color:#334155,stroke-width:2px;
 ```
 
 ### Phase B — execute, check, and handle exceptions
 
 ```mermaid
-%%{init: {"theme":"base","themeVariables":{"fontFamily":"Arial, sans-serif","fontSize":"18px","lineColor":"#64748B"},"flowchart":{"curve":"basis","nodeSpacing":44,"rankSpacing":58,"htmlLabels":true}}}%%
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"Arial, sans-serif","fontSize":"16px","lineColor":"#64748B"},"flowchart":{"curve":"linear","nodeSpacing":28,"rankSpacing":40,"htmlLabels":true}}}%%
 flowchart TB
     Run[Execute only ACTIVE_TASK.md]:::agent --> Check[Run specified checks<br/>inspect saved outputs]:::agent
     Check --> Failure{Mechanical failure?}:::decision
@@ -77,10 +77,10 @@ flowchart TB
     G2 -- Amend task --> Revise([Return to Gate 1]):::human
     G2 -- Stop or invalidate --> Evidence
 
-    classDef human fill:#E8F1FF,stroke:#2563EB,color:#0F2B5B,stroke-width:2px;
-    classDef gate fill:#FFF3CD,stroke:#B7791F,color:#4A3300,stroke-width:3px;
-    classDef agent fill:#EAF7F0,stroke:#16825D,color:#123C2E,stroke-width:2px;
-    classDef evidence fill:#E7F7EF,stroke:#15803D,color:#123A24,stroke-width:2px;
+    classDef human fill:#EAF1F8,stroke:#355C7D,color:#183247,stroke-width:2px;
+    classDef gate fill:#EAF1F8,stroke:#355C7D,color:#183247,stroke-width:2px;
+    classDef agent fill:#F4F7FA,stroke:#6B7F91,color:#243746,stroke-width:2px;
+    classDef evidence fill:#F4F7FA,stroke:#6B7F91,color:#243746,stroke-width:2px;
     classDef decision fill:#FFFFFF,stroke:#64748B,color:#1F2937,stroke-width:2px;
     classDef warning fill:#FDECEC,stroke:#C2413B,color:#5F1714,stroke-width:2px;
 ```
@@ -88,7 +88,7 @@ flowchart TB
 ### Phase C — review evidence and make the scientific decision
 
 ```mermaid
-%%{init: {"theme":"base","themeVariables":{"fontFamily":"Arial, sans-serif","fontSize":"18px","lineColor":"#64748B"},"flowchart":{"curve":"basis","nodeSpacing":44,"rankSpacing":58,"htmlLabels":true}}}%%
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"Arial, sans-serif","fontSize":"16px","lineColor":"#64748B"},"flowchart":{"curve":"linear","nodeSpacing":28,"rankSpacing":40,"htmlLabels":true}}}%%
 flowchart TB
     Evidence[Save facts · checks · limitations<br/>and a proposed disposition]:::evidence
     Evidence --> Review[Reviewer checks scope<br/>correctness · evidence · explanation]:::review
@@ -102,19 +102,19 @@ flowchart TB
     G3 -- Retire expected failure --> Record
     G3 -- Unresolved --> Record
 
-    classDef human fill:#E8F1FF,stroke:#2563EB,color:#0F2B5B,stroke-width:2px;
-    classDef gate fill:#FFF3CD,stroke:#B7791F,color:#4A3300,stroke-width:3px;
-    classDef agent fill:#EAF7F0,stroke:#16825D,color:#123C2E,stroke-width:2px;
-    classDef evidence fill:#E7F7EF,stroke:#15803D,color:#123A24,stroke-width:2px;
-    classDef review fill:#E9F5FF,stroke:#2878B5,color:#123C5A,stroke-width:2px;
-    classDef file fill:#F2ECFF,stroke:#7C3AED,color:#2E1065,stroke-width:2px;
+    classDef human fill:#EAF1F8,stroke:#355C7D,color:#183247,stroke-width:2px;
+    classDef gate fill:#EAF1F8,stroke:#355C7D,color:#183247,stroke-width:2px;
+    classDef agent fill:#F4F7FA,stroke:#6B7F91,color:#243746,stroke-width:2px;
+    classDef evidence fill:#F4F7FA,stroke:#6B7F91,color:#243746,stroke-width:2px;
+    classDef review fill:#F4F7FA,stroke:#6B7F91,color:#243746,stroke-width:2px;
+    classDef file fill:#FFFFFF,stroke:#8A98A5,color:#334155,stroke-width:2px;
     classDef decision fill:#FFFFFF,stroke:#64748B,color:#1F2937,stroke-width:2px;
 ```
 
 ### Phase D — continue, pause, or release externally
 
 ```mermaid
-%%{init: {"theme":"base","themeVariables":{"fontFamily":"Arial, sans-serif","fontSize":"18px","lineColor":"#64748B"},"flowchart":{"curve":"basis","nodeSpacing":44,"rankSpacing":58,"htmlLabels":true}}}%%
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"Arial, sans-serif","fontSize":"16px","lineColor":"#64748B"},"flowchart":{"curve":"linear","nodeSpacing":28,"rankSpacing":40,"htmlLabels":true}}}%%
 flowchart TB
     Record[Decision recorded<br/>CURRENT.md updated]:::file --> More{Another approved question?}:::decision
     More -- Yes --> Next([Return to planning]):::human
@@ -126,13 +126,13 @@ flowchart TB
     G4 -- No --> Hold
     G4 -- Yes --> External([Publish or upload]):::external
 
-    classDef human fill:#E8F1FF,stroke:#2563EB,color:#0F2B5B,stroke-width:2px;
-    classDef gate fill:#FFF3CD,stroke:#B7791F,color:#4A3300,stroke-width:3px;
-    classDef review fill:#E9F5FF,stroke:#2878B5,color:#123C5A,stroke-width:2px;
-    classDef file fill:#F2ECFF,stroke:#7C3AED,color:#2E1065,stroke-width:2px;
+    classDef human fill:#EAF1F8,stroke:#355C7D,color:#183247,stroke-width:2px;
+    classDef gate fill:#EAF1F8,stroke:#355C7D,color:#183247,stroke-width:2px;
+    classDef review fill:#F4F7FA,stroke:#6B7F91,color:#243746,stroke-width:2px;
+    classDef file fill:#FFFFFF,stroke:#8A98A5,color:#334155,stroke-width:2px;
     classDef decision fill:#FFFFFF,stroke:#64748B,color:#1F2937,stroke-width:2px;
     classDef stop fill:#F1F5F9,stroke:#64748B,color:#334155,stroke-width:2px;
-    classDef external fill:#E7F7EF,stroke:#15803D,color:#123A24,stroke-width:3px;
+    classDef external fill:#EAF1F8,stroke:#355C7D,color:#183247,stroke-width:2px;
 ```
 
 ### Human intervention points
@@ -150,7 +150,7 @@ The agent does not need human approval for every syntax repair, failed unit test
 This decision tree prevents a useful discovery from silently replacing the original question.
 
 ```mermaid
-%%{init: {"theme":"base","themeVariables":{"fontFamily":"Arial, sans-serif","fontSize":"18px","lineColor":"#64748B"},"flowchart":{"curve":"basis","nodeSpacing":46,"rankSpacing":58,"htmlLabels":true}}}%%
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"Arial, sans-serif","fontSize":"16px","lineColor":"#64748B"},"flowchart":{"curve":"linear","nodeSpacing":28,"rankSpacing":40,"htmlLabels":true}}}%%
 flowchart TB
     Finding([Agent observes an unexpected result,<br/>problem, or new idea]) --> Trust{Can the active result be trusted<br/>without resolving it?}
 
@@ -178,11 +178,11 @@ flowchart TB
     Useful -- No --> Note[Record only if needed<br/>to explain the current evidence]
     Note --> Return3
 
-    classDef gate fill:#FFF3CD,stroke:#B7791F,color:#4A3300,stroke-width:3px;
-    classDef return fill:#E8F1FF,stroke:#2563EB,color:#0F2B5B,stroke-width:2px;
-    classDef action fill:#EAF7F0,stroke:#16825D,color:#123C2E,stroke-width:2px;
+    classDef gate fill:#EAF1F8,stroke:#355C7D,color:#183247,stroke-width:2px;
+    classDef return fill:#EAF1F8,stroke:#355C7D,color:#183247,stroke-width:2px;
+    classDef action fill:#F4F7FA,stroke:#6B7F91,color:#243746,stroke-width:2px;
     classDef warning fill:#FDECEC,stroke:#C2413B,color:#5F1714,stroke-width:2px;
-    classDef file fill:#F2ECFF,stroke:#7C3AED,color:#2E1065,stroke-width:2px;
+    classDef file fill:#FFFFFF,stroke:#8A98A5,color:#334155,stroke-width:2px;
 
     class Gate2 gate;
     class Return1,Return2,Return3 return;
@@ -204,7 +204,7 @@ If the agent cannot assign one category with concrete reasons, it pauses the aff
 Each fact should have one authoritative home. Other files link to it instead of copying its full content.
 
 ```mermaid
-%%{init: {"theme":"base","themeVariables":{"fontFamily":"Arial, sans-serif","fontSize":"18px","lineColor":"#64748B"},"flowchart":{"curve":"basis","nodeSpacing":44,"rankSpacing":58,"htmlLabels":true}}}%%
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"Arial, sans-serif","fontSize":"16px","lineColor":"#64748B"},"flowchart":{"curve":"linear","nodeSpacing":28,"rankSpacing":40,"htmlLabels":true}}}%%
 flowchart TB
     Human[Human decisions and project intent] --> Project[PROJECT.md<br/>purpose, scope, data classes, authority]
     Human --> Plan[PLAN.md<br/>approved phase order and comparisons]
@@ -233,10 +233,10 @@ flowchart TB
     Scripts -. check .-> Review
     Scripts -. never decide science .-> HumanGate
 
-    classDef human fill:#E8F1FF,stroke:#2563EB,color:#0F2B5B,stroke-width:2px;
-    classDef gate fill:#FFF3CD,stroke:#B7791F,color:#4A3300,stroke-width:3px;
-    classDef agent fill:#EAF7F0,stroke:#16825D,color:#123C2E,stroke-width:2px;
-    classDef file fill:#F2ECFF,stroke:#7C3AED,color:#2E1065,stroke-width:2px;
+    classDef human fill:#EAF1F8,stroke:#355C7D,color:#183247,stroke-width:2px;
+    classDef gate fill:#EAF1F8,stroke:#355C7D,color:#183247,stroke-width:2px;
+    classDef agent fill:#F4F7FA,stroke:#6B7F91,color:#243746,stroke-width:2px;
+    classDef file fill:#FFFFFF,stroke:#8A98A5,color:#334155,stroke-width:2px;
     classDef check fill:#F1F5F9,stroke:#64748B,color:#334155,stroke-width:2px;
 
     class Human human;
@@ -263,7 +263,7 @@ flowchart TB
 ## State transitions for the active task
 
 ```mermaid
-%%{init: {"theme":"base","themeVariables":{"fontFamily":"Arial, sans-serif","fontSize":"18px","lineColor":"#64748B"},"state":{"useMaxWidth":true}}}%%
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"Arial, sans-serif","fontSize":"16px","lineColor":"#64748B"},"state":{"useMaxWidth":true}}}%%
 stateDiagram-v2
     [*] --> empty
     empty --> planned: task drafted
