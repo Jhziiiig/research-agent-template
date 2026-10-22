@@ -63,51 +63,41 @@ This template addresses those failures with:
 The lanes below show who acts, when a human must intervene, and where each kind of information is stored.
 
 ```mermaid
-flowchart LR
-    subgraph H[Human researcher]
-        H1[Define the research question]
-        H2[Approve one bounded task]
-        H3{Scientific decision gate}
-        H4[Approve next task or stop]
-    end
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"Arial, sans-serif","fontSize":"18px","lineColor":"#64748B"},"flowchart":{"curve":"basis","nodeSpacing":44,"rankSpacing":58,"htmlLabels":true}}}%%
+flowchart TB
+    H0([Human defines the research question]):::human
+    C0[PROJECT.md + PLAN.md<br/>purpose, boundaries, approved sequence]:::file
+    G1{Gate 1<br/>Human authorizes one bounded task}:::gate
+    T1[work/ACTIVE_TASK.md<br/>the only active execution scope]:::file
+    A1[Agent loop<br/>implement → check → repair]:::agent
+    Q1{Unexpected finding?}:::decision
+    B1[Record in BACKLOG.md<br/>continue the original task]:::file
+    G2{Gate 2<br/>Human resolves blocker or scope change}:::gate
+    E1[Save evidence + prepare review packet]:::evidence
+    G3{Gate 3<br/>Human chooses the scientific disposition}:::gate
+    M1[Update DECISIONS.md + CURRENT.md]:::file
+    N1{Another approved task?}:::decision
+    Z1([Wait with state preserved]):::stop
 
-    subgraph S[Control and memory files]
-        S1[PROJECT.md and PLAN.md<br/>purpose, boundaries, phase sequence]
-        S2[work/ACTIVE_TASK.md<br/>only authorized execution scope]
-        S3[work/BACKLOG.md<br/>ideas not authorized now]
-        S4[memory/DECISIONS.md and CURRENT.md<br/>decision history and short current state]
-    end
+    H0 --> C0 --> G1 --> T1 --> A1 --> Q1
+    Q1 -- No --> E1
+    Q1 -- Bounded mechanical fix --> A1
+    Q1 -- Useful later --> B1 --> A1
+    Q1 -- Blocking or out of scope --> G2
+    G2 -- Continue --> A1
+    G2 -- Amend task --> G1
+    G2 -- Stop or invalidate --> E1
+    E1 --> G3 --> M1 --> N1
+    N1 -- Yes --> G1
+    N1 -- No --> Z1
 
-    subgraph A[Agent execution]
-        A1[Read only relevant context]
-        A2[Implement or analyze]
-        A3[Run checks and inspect outputs]
-        A4{Mechanical failure?}
-        A5[Repair within approved scope]
-        A6{Unexpected finding?}
-        A7[Run recorded bounded diagnostic]
-        A8[Pause affected work and report blocker]
-    end
-
-    subgraph E[Evidence and review]
-        E1[experiments/ID/<br/>plan, results, permitted evidence]
-        E2[reviews/<br/>short review packet]
-    end
-
-    H1 --> S1 --> H2 --> S2
-    S4 --> A1
-    S2 --> A1 --> A2 --> A3 --> A4
-    A4 -- Yes --> A5 --> A3
-    A4 -- No --> A6
-    A6 -- No new issue --> E1 --> E2 --> H3
-    A6 -- Blocking --> A8 --> H3
-    A6 -- Limited check can resolve it --> A7 --> A3
-    A6 -- Useful but not required now --> S3
-    S3 -. stays outside active scope .-> A2
-    H3 -- Retain, investigate cause, retire, or unresolved --> S4
-    S4 --> H4
-    H4 -- Approved next task --> S2
-    H4 -- Stop --> Z[Project waits with state preserved]
+    classDef human fill:#E8F1FF,stroke:#2563EB,color:#0F2B5B,stroke-width:2px;
+    classDef gate fill:#FFF3CD,stroke:#B7791F,color:#4A3300,stroke-width:3px;
+    classDef agent fill:#EAF7F0,stroke:#16825D,color:#123C2E,stroke-width:2px;
+    classDef evidence fill:#E7F7EF,stroke:#15803D,color:#123A24,stroke-width:2px;
+    classDef file fill:#F2ECFF,stroke:#7C3AED,color:#2E1065,stroke-width:2px;
+    classDef decision fill:#FFFFFF,stroke:#64748B,color:#1F2937,stroke-width:2px;
+    classDef stop fill:#F1F5F9,stroke:#64748B,color:#334155,stroke-width:2px;
 ```
 
 The agent may loop through implementation, checking, and repair without asking about every mechanical detail. The human re-enters when evidence is blocked, a scientific interpretation or scope decision is required, or the next task must be authorized. See the [detailed process map](workflow/PROCESS_MAP.md) to review each gate, exception path, information destination, and task state; see [the operating model](workflow/OPERATING_MODEL.md) for the corresponding rules.

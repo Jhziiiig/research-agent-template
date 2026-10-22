@@ -19,60 +19,120 @@ The diagrams describe control and information flow. They do not grant tool permi
 
 ## 1. Stage and approval map
 
-This is the complete task lifecycle. A **gate** is a point where work waits for an explicit human decision.
+The first diagram is the whole lifecycle at a glance. The smaller diagrams underneath enlarge each phase. A **gate** is a point where work waits for an explicit human decision.
 
 ```mermaid
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"Arial, sans-serif","fontSize":"19px","lineColor":"#64748B"},"flowchart":{"curve":"basis","nodeSpacing":50,"rankSpacing":62,"htmlLabels":true}}}%%
+flowchart LR
+    P0([1 · Define project]):::human --> P1{Gate 0}:::gate
+    P1 --> P2([2 · Authorize task]):::human --> P3{Gate 1}:::gate
+    P3 --> P4([3 · Agent execution loop]):::agent
+    P4 --> P5([4 · Evidence + review]):::evidence
+    P5 --> P6{Gate 3}:::gate
+    P6 --> P7([5 · Record decision]):::file
+    P7 -. optional .-> P8{Gate 4<br/>external release}:::gate
+
+    classDef human fill:#E8F1FF,stroke:#2563EB,color:#0F2B5B,stroke-width:2px;
+    classDef gate fill:#FFF3CD,stroke:#B7791F,color:#4A3300,stroke-width:3px;
+    classDef agent fill:#EAF7F0,stroke:#16825D,color:#123C2E,stroke-width:2px;
+    classDef evidence fill:#E7F7EF,stroke:#15803D,color:#123A24,stroke-width:2px;
+    classDef file fill:#F2ECFF,stroke:#7C3AED,color:#2E1065,stroke-width:2px;
+```
+
+### Phase A — define the project and authorize one task
+
+```mermaid
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"Arial, sans-serif","fontSize":"18px","lineColor":"#64748B"},"flowchart":{"curve":"basis","nodeSpacing":44,"rankSpacing":58,"htmlLabels":true}}}%%
 flowchart TB
-    Start([Project idea]) --> G0{Gate 0<br/>Approve project definition?}
-    G0 -- Revise --> Charter[Edit PROJECT.md<br/>question, boundaries, data classes, authority]
-    Charter --> G0
-    G0 -- Approve --> Plan[Write or select PLAN.md phase<br/>comparison, evidence, stop condition]
+    Start([Project idea]):::human --> Charter[Write PROJECT.md<br/>question · boundaries · data classes · authority]:::file
+    Charter --> G0{Gate 0<br/>Approve the project definition?}:::gate
+    G0 -- Revise --> Charter
+    G0 -- Approve --> Plan[Select one PLAN.md phase<br/>comparison · evidence · stop condition]:::file
+    Plan --> Draft[Draft work/ACTIVE_TASK.md<br/>one question · one bounded scope]:::file
+    Draft --> G1{Gate 1<br/>Authorize this exact task?}:::gate
+    G1 -- Revise or reject --> Draft
+    G1 -- Approve --> Run([Start agent execution]):::agent
 
-    Plan --> Draft[Draft work/ACTIVE_TASK.md<br/>one question and one bounded scope]
-    Draft --> Ready{Task complete enough to review?}
-    Ready -- No --> Draft
-    Ready -- Yes --> G1{Gate 1<br/>Authorize this task?}
-    G1 -- Reject or revise --> Draft
-    G1 -- Approve --> Run[Agent executes within ACTIVE_TASK.md]
+    classDef human fill:#E8F1FF,stroke:#2563EB,color:#0F2B5B,stroke-width:2px;
+    classDef gate fill:#FFF3CD,stroke:#B7791F,color:#4A3300,stroke-width:3px;
+    classDef agent fill:#EAF7F0,stroke:#16825D,color:#123C2E,stroke-width:2px;
+    classDef file fill:#F2ECFF,stroke:#7C3AED,color:#2E1065,stroke-width:2px;
+```
 
-    Run --> Check[Run specified checks<br/>and inspect saved outputs]
-    Check --> Mechanical{Mechanical failure?}
-    Mechanical -- Yes --> Repair[Repair without changing<br/>the scientific question]
+### Phase B — execute, check, and handle exceptions
+
+```mermaid
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"Arial, sans-serif","fontSize":"18px","lineColor":"#64748B"},"flowchart":{"curve":"basis","nodeSpacing":44,"rankSpacing":58,"htmlLabels":true}}}%%
+flowchart TB
+    Run[Execute only ACTIVE_TASK.md]:::agent --> Check[Run specified checks<br/>inspect saved outputs]:::agent
+    Check --> Failure{Mechanical failure?}:::decision
+    Failure -- Yes --> Repair[Repair without changing<br/>the scientific question]:::agent
     Repair --> Check
-    Mechanical -- No --> Exception{Unexpected finding<br/>or new idea?}
-
-    Exception -- Yes --> ExceptionMap[Follow exception map below]
-    ExceptionMap --> RunOrGate{Return to task<br/>or require human gate}
-    RunOrGate -- Return --> Run
-    RunOrGate -- Human decision needed --> G2{Gate 2<br/>Resolve blocker or scope change?}
-    G2 -- Continue original task --> Run
-    G2 -- Amend task or plan --> Draft
+    Failure -- No --> Finding{Unexpected finding<br/>or new idea?}:::decision
+    Finding -- No --> Evidence([Save evidence]):::evidence
+    Finding -- Yes --> Classify[Use the exception map<br/>blocking · bounded diagnostic · backlog]:::warning
+    Classify -- Return to task --> Run
+    Classify -- Human decision required --> G2{Gate 2<br/>Resolve blocker or scope change}:::gate
+    G2 -- Continue --> Run
+    G2 -- Amend task --> Revise([Return to Gate 1]):::human
     G2 -- Stop or invalidate --> Evidence
 
-    Exception -- No --> Evidence[Save experiment result<br/>facts, checks, limitations, disposition proposal]
-    Evidence --> Review[Reviewer checks scope,<br/>correctness, evidence, and explanation]
-    Review --> Findings{Required correction?}
-    Findings -- Mechanical or implementation correction --> Repair
-    Findings -- Scientific uncertainty --> G3
-    Findings -- No blocking finding --> Packet[Create concise review packet]
-    Packet --> G3{Gate 3<br/>Choose scientific disposition}
+    classDef human fill:#E8F1FF,stroke:#2563EB,color:#0F2B5B,stroke-width:2px;
+    classDef gate fill:#FFF3CD,stroke:#B7791F,color:#4A3300,stroke-width:3px;
+    classDef agent fill:#EAF7F0,stroke:#16825D,color:#123C2E,stroke-width:2px;
+    classDef evidence fill:#E7F7EF,stroke:#15803D,color:#123A24,stroke-width:2px;
+    classDef decision fill:#FFFFFF,stroke:#64748B,color:#1F2937,stroke-width:2px;
+    classDef warning fill:#FDECEC,stroke:#C2413B,color:#5F1714,stroke-width:2px;
+```
 
-    G3 -- Retain --> Decision[Record decision and update CURRENT.md]
-    G3 -- Investigate surprising failure --> BackToPlan[Define a direct diagnostic task]
-    G3 -- Retire expected failure --> Decision
-    G3 -- Unresolved --> Decision
-    BackToPlan --> Draft
+### Phase C — review evidence and make the scientific decision
 
-    Decision --> More{Another approved question?}
-    More -- Yes --> Plan
-    More -- No --> Hold([Wait with state preserved])
+```mermaid
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"Arial, sans-serif","fontSize":"18px","lineColor":"#64748B"},"flowchart":{"curve":"basis","nodeSpacing":44,"rankSpacing":58,"htmlLabels":true}}}%%
+flowchart TB
+    Evidence[Save facts · checks · limitations<br/>and a proposed disposition]:::evidence
+    Evidence --> Review[Reviewer checks scope<br/>correctness · evidence · explanation]:::review
+    Review --> Finding{Blocking correction?}:::decision
+    Finding -- Implementation correction --> Repair([Return to repair loop]):::agent
+    Finding -- Scientific uncertainty --> G3{Gate 3<br/>Choose disposition}:::gate
+    Finding -- No --> Packet[Create concise review packet]:::review
+    Packet --> G3
+    G3 -- Retain --> Record[Record decision<br/>update CURRENT.md]:::file
+    G3 -- Investigate surprising failure --> Diagnostic([Authorize a direct diagnostic task]):::human
+    G3 -- Retire expected failure --> Record
+    G3 -- Unresolved --> Record
 
-    Decision --> PublishCandidate{External release proposed?}
-    PublishCandidate -- No --> Hold
-    PublishCandidate -- Yes --> ReleaseChecks[Run release scan<br/>and manually inspect files, history, licenses]
-    ReleaseChecks --> G4{Gate 4<br/>Approve exact destination and visibility?}
+    classDef human fill:#E8F1FF,stroke:#2563EB,color:#0F2B5B,stroke-width:2px;
+    classDef gate fill:#FFF3CD,stroke:#B7791F,color:#4A3300,stroke-width:3px;
+    classDef agent fill:#EAF7F0,stroke:#16825D,color:#123C2E,stroke-width:2px;
+    classDef evidence fill:#E7F7EF,stroke:#15803D,color:#123A24,stroke-width:2px;
+    classDef review fill:#E9F5FF,stroke:#2878B5,color:#123C5A,stroke-width:2px;
+    classDef file fill:#F2ECFF,stroke:#7C3AED,color:#2E1065,stroke-width:2px;
+    classDef decision fill:#FFFFFF,stroke:#64748B,color:#1F2937,stroke-width:2px;
+```
+
+### Phase D — continue, pause, or release externally
+
+```mermaid
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"Arial, sans-serif","fontSize":"18px","lineColor":"#64748B"},"flowchart":{"curve":"basis","nodeSpacing":44,"rankSpacing":58,"htmlLabels":true}}}%%
+flowchart TB
+    Record[Decision recorded<br/>CURRENT.md updated]:::file --> More{Another approved question?}:::decision
+    More -- Yes --> Next([Return to planning]):::human
+    More -- No --> Hold([Wait with state preserved]):::stop
+    Record --> Release{External release proposed?}:::decision
+    Release -- No --> Hold
+    Release -- Yes --> Checks[Scan files + Git history<br/>inspect licenses + destination]:::review
+    Checks --> G4{Gate 4<br/>Approve exact material,<br/>destination, and visibility?}:::gate
     G4 -- No --> Hold
-    G4 -- Yes --> External([Publish or upload])
+    G4 -- Yes --> External([Publish or upload]):::external
+
+    classDef human fill:#E8F1FF,stroke:#2563EB,color:#0F2B5B,stroke-width:2px;
+    classDef gate fill:#FFF3CD,stroke:#B7791F,color:#4A3300,stroke-width:3px;
+    classDef review fill:#E9F5FF,stroke:#2878B5,color:#123C5A,stroke-width:2px;
+    classDef file fill:#F2ECFF,stroke:#7C3AED,color:#2E1065,stroke-width:2px;
+    classDef decision fill:#FFFFFF,stroke:#64748B,color:#1F2937,stroke-width:2px;
+    classDef stop fill:#F1F5F9,stroke:#64748B,color:#334155,stroke-width:2px;
+    classDef external fill:#E7F7EF,stroke:#15803D,color:#123A24,stroke-width:3px;
 ```
 
 ### Human intervention points
@@ -90,6 +150,7 @@ The agent does not need human approval for every syntax repair, failed unit test
 This decision tree prevents a useful discovery from silently replacing the original question.
 
 ```mermaid
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"Arial, sans-serif","fontSize":"18px","lineColor":"#64748B"},"flowchart":{"curve":"basis","nodeSpacing":46,"rankSpacing":58,"htmlLabels":true}}}%%
 flowchart TB
     Finding([Agent observes an unexpected result,<br/>problem, or new idea]) --> Trust{Can the active result be trusted<br/>without resolving it?}
 
@@ -116,6 +177,18 @@ flowchart TB
     NoExecution --> Return3([Continue original task])
     Useful -- No --> Note[Record only if needed<br/>to explain the current evidence]
     Note --> Return3
+
+    classDef gate fill:#FFF3CD,stroke:#B7791F,color:#4A3300,stroke-width:3px;
+    classDef return fill:#E8F1FF,stroke:#2563EB,color:#0F2B5B,stroke-width:2px;
+    classDef action fill:#EAF7F0,stroke:#16825D,color:#123C2E,stroke-width:2px;
+    classDef warning fill:#FDECEC,stroke:#C2413B,color:#5F1714,stroke-width:2px;
+    classDef file fill:#F2ECFF,stroke:#7C3AED,color:#2E1065,stroke-width:2px;
+
+    class Gate2 gate;
+    class Return1,Return2,Return3 return;
+    class Repair,Diagnostic,RunDiagnostic action;
+    class Blocking,BlockRecord,ScopeProposal warning;
+    class Backlog,NoExecution,Note file;
 ```
 
 ### Classification test
@@ -131,7 +204,8 @@ If the agent cannot assign one category with concrete reasons, it pauses the aff
 Each fact should have one authoritative home. Other files link to it instead of copying its full content.
 
 ```mermaid
-flowchart LR
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"Arial, sans-serif","fontSize":"18px","lineColor":"#64748B"},"flowchart":{"curve":"basis","nodeSpacing":44,"rankSpacing":58,"htmlLabels":true}}}%%
+flowchart TB
     Human[Human decisions and project intent] --> Project[PROJECT.md<br/>purpose, scope, data classes, authority]
     Human --> Plan[PLAN.md<br/>approved phase order and comparisons]
     Project --> Active[work/ACTIVE_TASK.md<br/>single authorized task]
@@ -158,6 +232,18 @@ flowchart LR
     Scripts -. check .-> Experiment
     Scripts -. check .-> Review
     Scripts -. never decide science .-> HumanGate
+
+    classDef human fill:#E8F1FF,stroke:#2563EB,color:#0F2B5B,stroke-width:2px;
+    classDef gate fill:#FFF3CD,stroke:#B7791F,color:#4A3300,stroke-width:3px;
+    classDef agent fill:#EAF7F0,stroke:#16825D,color:#123C2E,stroke-width:2px;
+    classDef file fill:#F2ECFF,stroke:#7C3AED,color:#2E1065,stroke-width:2px;
+    classDef check fill:#F1F5F9,stroke:#64748B,color:#334155,stroke-width:2px;
+
+    class Human human;
+    class HumanGate gate;
+    class Agent agent;
+    class Project,Plan,Active,Current,Experiment,Backlog,Review,Decisions,Terms file;
+    class Scripts check;
 ```
 
 ## File update rules
@@ -177,6 +263,7 @@ flowchart LR
 ## State transitions for the active task
 
 ```mermaid
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"Arial, sans-serif","fontSize":"18px","lineColor":"#64748B"},"state":{"useMaxWidth":true}}}%%
 stateDiagram-v2
     [*] --> empty
     empty --> planned: task drafted
